@@ -10,7 +10,7 @@
 
 ### Preview
 
-![sample-conversation](https://github.com/Supernova-PulsarAIGeorgia/Jipitauri-chat-bot/edit/main/preview.png)
+![sample-conversation](https://github.com/Supernova-PulsarAIGeorgia/Jipitauri-chat-bot/blob/main/preview.png)
 
 ### [Live preview](https://chat.pulsarai.ge)
 
