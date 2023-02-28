@@ -2,7 +2,7 @@
   text-align: start;
   color: #e0d8d8;
   background-color: rgb(52, 53, 65);
-  height: 100dvh;
+  height: 100%;
   margin: 0;
 }
 
@@ -18,7 +18,7 @@ p {
 }
 
 .about {
-  padding: 5% 20%;
+  padding: 0 20%;
 }
 
 a {
