@@ -5,7 +5,7 @@ function App() {
   return (
     <main className="App">
       <a
-        href="https://github.com/Supernova-PulsarAIGeorgia/Jipitauri-chat-bot"
+        href="https://github.com/supernova-ge/Jipitauri"
         target="_blank"
         rel="noreferrer"
       >

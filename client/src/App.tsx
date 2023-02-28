@@ -110,7 +110,7 @@ function App() {
     <div id="main" style={{ height: window.innerHeight, display: "none" }}>
       <span>
         <a
-          href="https://supernova-pulsaraigeorgia.github.io/Jipitauri/"
+          href="https://supernova-ge.github.io/Jipitauri/"
           className="aboutUs"
           target="_blank"
           rel="noreferrer"

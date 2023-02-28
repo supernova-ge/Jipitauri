@@ -3,18 +3,18 @@
 </h1>
 
 <p align="center">
- <img width="100px" src="https://github.com/Supernova-PulsarAIGeorgia/Jipitauri-chat-bot/blob/main/jipitauri@0.5x.jpg" align="center" alt="Logo" />
+ <img width="100px" src="https://github.com/supernova-ge/Jipitauri/blob/main/jipitauri@0.5x.jpg" align="center" alt="Logo" />
 </p>
 
 <div align="center">
   
-  ![example1](https://img.shields.io/github/stars/Supernova-PulsarAIGeorgia/Jipitauri-chat-bot?style=social)
-  ![example2](https://img.shields.io/github/forks/Supernova-PulsarAIGeorgia/Jipitauri-chat-bot?style=social)
+  ![example1](https://img.shields.io/github/stars/supernova-ge/Jipitauri?style=social)
+  ![example2](https://img.shields.io/github/forks/supernova-ge/Jipitauri?style=social)
 </div>
 
 ### Preview
 
-![sample-conversation](https://github.com/Supernova-PulsarAIGeorgia/Jipitauri-chat-bot/blob/main/preview.png)
+![sample-conversation](https://github.com/supernova-ge/Jipitauri/blob/main/preview.png)
 
 ### [Live preview](https://chat.pulsarai.ge)
 
