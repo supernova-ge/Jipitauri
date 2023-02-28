@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Prompt {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionId String 
+  input     String
+  input_en  String
+  output    String
+  output_ge String
+  summary   String
+  createdAt DateTime @map("createdAt") @default(now())
+  updatedAt DateTime @map("updatedAt") @updatedAt
+}
+
+model Feedback {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  message   String
+  value     String
+  createdAt DateTime @map("createdAt") @default(now())
+  updatedAt DateTime @map("updatedAt") @updatedAt
+}

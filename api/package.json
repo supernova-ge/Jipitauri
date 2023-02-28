@@ -1,0 +1,33 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsup index.ts && node ./dist/index.js",
+    "build": "tsc",
+    "start": "npx prisma generate --schema=./prisma/schema.prisma && npx prisma db push && ts-node index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/speech": "^4.10.2",
+    "@google-cloud/translate": "^7.1.1",
+    "@prisma/client": "^4.10.1",
+    "axios": "^0.27.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "openai": "^3.1.0",
+    "prisma": "^4.10.1",
+    "socket.io": "^4.5.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.1",
+    "typescript": "^4.7.4",
+    "@types/axios": "^0.14.0",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13"
+  }
+}
