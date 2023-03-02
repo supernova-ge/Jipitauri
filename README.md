@@ -43,3 +43,4 @@ Or simply
 
 `Set up the environment` then
 run :whale: `docker-compose up`
+...
