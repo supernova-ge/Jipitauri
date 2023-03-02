@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/Jipitauri/static/css/main.9051e457.css",
-    "main.js": "/Jipitauri/static/js/main.736a3bdc.js",
+    "main.css": "/Jipitauri/static/css/main.5499c8f7.css",
+    "main.js": "/Jipitauri/static/js/main.1268a635.js",
     "index.html": "/Jipitauri/index.html",
     "static/media/code(1).svg": "/Jipitauri/static/media/code(1).2aac67eec2aeb4f80831fea986956a69.svg",
-    "main.9051e457.css.map": "/Jipitauri/static/css/main.9051e457.css.map",
-    "main.736a3bdc.js.map": "/Jipitauri/static/js/main.736a3bdc.js.map"
+    "main.5499c8f7.css.map": "/Jipitauri/static/css/main.5499c8f7.css.map",
+    "main.1268a635.js.map": "/Jipitauri/static/js/main.1268a635.js.map"
   },
   "entrypoints": [
-    "static/css/main.9051e457.css",
-    "static/js/main.736a3bdc.js"
+    "static/css/main.5499c8f7.css",
+    "static/js/main.1268a635.js"
   ]
 }
