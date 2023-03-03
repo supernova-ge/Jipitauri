@@ -24,3 +24,9 @@ p {
 a {
   color: #eaee0d;
 }
+
+.subtitle {
+  font-size: 25px;
+  padding: 20px 0;
+  color: #97e87d;
+}
