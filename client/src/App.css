@@ -6,13 +6,10 @@ span {
   font-size: 13px !important;
 }
 
-#main {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  background-color: rgb(52, 53, 65);
-  /* align-items: flex-end; */
+.popup {
+  background-color: rgb(202, 101, 230);
 }
+
 .clearIcon,
 .likeBtn,
 .dislikeBtn,
@@ -25,7 +22,7 @@ span {
   right: 0px !important;
   z-index: 10000;
   color: #e0d8d8 !important;
-  width: 50px;
+  width: 40px;
 }
 
 .clearIcon {
@@ -39,7 +36,6 @@ span {
 
 .likeBtn,
 .dislikeBtn {
-  width: 17px;
   position: relative;
   display: inline;
 }
@@ -47,6 +43,7 @@ span {
 .rcw-timestamp {
   display: none;
 }
+
 .rcw-sender {
   align-items: center !important;
   padding: 0 !important;
@@ -57,18 +54,20 @@ span {
   background-color: transparent;
   transform: rotate(-45deg);
   position: absolute;
+  right: 20px;
 }
 
 .rcw-title {
-  font-size: 20px !important;
+  /* font-size: 20px !important;
   font-weight: 500;
   padding: 25px !important;
-  text-align: center;
+  text-align: center; */
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .rcw-send-icon,
 .rcw-picker-icon {
-  padding: 0 10px;
   width: 20px;
 }
 
@@ -104,6 +103,10 @@ span {
   padding: 13px !important;
 }
 
+.rcw-response {
+  width: 100%;
+}
+
 .rcw-response .rcw-message-text {
   max-width: 60%;
   background-color: rgba(32, 33, 35, 0.5) !important;
@@ -117,45 +120,54 @@ span {
 .rcw-timestamp {
   color: #fff;
 }
+
+.policy {
+  position: absolute;
+  top: 80%;
+  padding: 15px;
+  color: #e0d8d8;
+  text-decoration: none;
+  font-size: 11px;
+  z-index: 11000;
+  width: 50%;
+  text-align: center;
+}
+
 .rcw-widget-container {
-  bottom: 10px;
   left: 0;
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   margin: 0;
   position: relative;
-  /* left: 400px; */
-  right: 0;
-  z-index: 9999;
+  align-items: center;
   background-color: rgb(52, 53, 65);
-  padding: 0 !important;
 }
 
 .rcw-conversation-container {
   width: 100%;
   height: 100%;
+
   margin: 0 !important;
+  padding: 0;
   box-shadow: none !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0;
 }
 
 .rcw-messages-container {
-  max-height: 90vh !important;
-  height: 90vh;
   background-color: rgb(52, 53, 65);
   overflow-y: auto;
-  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  -ms-overflow-style: none;
+  /* for Internet Explorer, Edge */
   scrollbar-width: none;
+  height: 100%;
+  max-height: 100%;
 }
 
 .rcw-messages-container::-webkit-scrollbar {
-  display: none; /* for Chrome, Safari, and Opera */
+  display: none;
+  /* for Chrome, Safari, and Opera */
 }
 
 .rcw-sender {

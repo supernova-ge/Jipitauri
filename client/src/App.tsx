@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "react-chat-widget/lib/styles.css";
 import "./App.css";
 import { setUpSocketClient } from "./config/socket";
@@ -9,10 +9,14 @@ import { Widget, addResponseMessage, toggleMsgLoader } from "react-chat-widget";
 import likeIcon from "./assets/thumbs-up(1).svg";
 import dislikeIcon from "./assets/thumbs-down.svg";
 
+import Popup from "./components/footer.popup";
+
 function App() {
   const [client, setClient] = useState<
     Socket<DefaultEventsMap, DefaultEventsMap>
   >(setUpSocketClient());
+
+  const [showPopup, setShowPopup] = useState(true);
 
   const toggleTyping = () => {
     toggleMsgLoader();
@@ -23,14 +27,14 @@ function App() {
       toggleTyping();
       client.emit("textMessage", e);
     };
+
     return (
       <Widget
-        handleNewUserMessage={handleNewUserMessage}
-        title="ჟიპიტაური"
+        handleNewUserMessage={handleNewUserMessage} //
+        title=""
         subtitle=""
         senderPlaceHolder="მომწერე რაც გინდა"
         showCloseButton={true}
-        // style={{ height: window.innerHeight }}
       />
     );
   });
@@ -40,23 +44,35 @@ function App() {
   };
 
   const handleLike = (e: any) => {
-    client.on("feedback_received", (data) => {
-      e.target.style.backgroundColor = "green";
-    });
-    client.emit("feedback", {
-      value: "like",
-      message: e.target.parentElement.innerText,
-    });
+    if (e.target.style.backgroundColor === "green") {
+      e.target.style.backgroundColor = "transparent";
+    } else {
+      client.on("feedback_received", (data) => {
+        e.target.style.backgroundColor = "green";
+        e.target.parentElement.children[1].style.backgroundColor =
+          "transparent";
+      });
+      client.emit("feedback", {
+        value: "like",
+        message: e.target.parentElement.parentElement.innerText,
+      });
+    }
   };
 
   const handleDislike = (e: any) => {
-    client.on("feedback_received", (data) => {
-      e.target.style.backgroundColor = "red";
-    });
-    client.emit("feedback", {
-      value: "dislike",
-      message: e.target.parentElement.parentElement.innerText,
-    });
+    if (e.target.style.backgroundColor === "red") {
+      e.target.style.backgroundColor = "transparent";
+    } else {
+      client.on("feedback_received", (data) => {
+        e.target.style.backgroundColor = "red";
+        e.target.parentElement.children[0].style.backgroundColor =
+          "transparent";
+      });
+      client.emit("feedback", {
+        value: "dislike",
+        message: e.target.parentElement.parentElement.innerText,
+      });
+    }
   };
 
   useEffect(() => {
@@ -107,22 +123,49 @@ function App() {
   }, [client]);
 
   return (
-    <div id="main" style={{ height: window.innerHeight, display: "none" }}>
-      <span>
+    <div
+      id="main"
+      className="overflow-hidden w-full flex flex-col justify-between bg-bg-main"
+      style={{ height: "100dvh", maxHeight: "100dvh", display: "none" }}
+    >
+      <header
+        className="flex flex-row justify-between items-center w-full shrink-0"
+        style={{ padding: "1.25rem 5%" }}
+      >
         <a
           href="https://supernova-ge.github.io/Jipitauri/"
-          className="aboutUs"
+          className="text-white-100 text-sm cursor-pointer text-center"
           target="_blank"
           rel="noreferrer"
         >
-          ჩვენ შესახებ
+          ჩვენ <br /> შესახებ
         </a>
-      </span>
-      <ChatFeed />
-      {/* <img src={clearIcon} alt="clear" className="clearIcon"></img> */}
-      <span className="clearIcon" onClick={handleClear}>
-        ახლიდან დაწყება
-      </span>
+        <h1 className="text-xl font-bold text-white-200">ჟიპიტაური</h1>
+        <span
+          className="text-white-100 text-sm cursor-pointer text-center"
+          onClick={handleClear}
+        >
+          ახლიდან <br /> დაწყება
+        </span>
+      </header>
+      <main className="overflow-y-auto overflow-x-hidden h-full z-0">
+        <ChatFeed />
+      </main>
+      <footer className="text-white-100 text-xs text-center px-5 py-5 lg:px-20 shrink-0 flex flex-col items-center justify-between">
+        <div className="flex flex-row items-center">
+          <button className="text-2xl px-5" onClick={() => setShowPopup(true)}>
+            ^
+          </button>
+          <p className="text-start">
+            ეს არის ავტომატიზირებული სისტემა რომელიც იყენებს open ai-ს მიერ
+            შექმნილ ენობრივ მოდელს, რომელმაც შეიძლება დააგენერიროს ისეთი ტექსტი,
+            რომელიც არ ეფუძნება ფაქტებს და არ წარმოადგენს სიმართლეს. ჩვენ არ
+            ვიღებთ პასუხისმგებლობას ამ ინფორმაციის სრულყოფილებასა და სისწორეზე.
+          </p>
+        </div>
+        <p className="mt-5">©სუპერნოვა</p>
+      </footer>
+      <Popup showPopup={showPopup} setShowPopup={setShowPopup} />
     </div>
   );
 }

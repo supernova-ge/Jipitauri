@@ -4,46 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <title>Jipitauri</title>
+    <meta name="description" content="Web site created using create-react-app" />
+    <title>ჟიპიტაური</title>
     <!-- add favicon -->
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <!-- Gtag code -->
-    <script async src=“https://www.googletagmanager.com/gtag/js?id=G-2BMZ03WW8B”></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag("js", new Date());
-      gtag("config", "G-2BMZ03WW8B");
-    </script>
+    <link rel="icon" href="%PUBLIC_URL%/jipitauri@0.5x.png" />
+    <!-- apple favicon -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/jipitauri@0.5x.png" />
+
+    <script src="https://www.google.com/recaptcha/api.js?hl=ka" async defer></script>
   </head>
-  <body>
+  <body style="background-color: 'rgb(52, 53, 65)'">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <form
-      action="?"
-      method="POST"
-      id="form"
-      style="
-        display: flex;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        justify-content: center;
-        align-items: center;
-        background-color: rgb(52, 53, 65);
-      "
-    >
-      <div
-        class="g-recaptcha"
-        data-sitekey="6LeYMLkkAAAAACefWZZuziwRABIR4u7ZD3TLg6Br"
-        data-callback="onloadCallback"
-        hl="ka"
-      ></div>
+    <form action="?" method="POST" id="form" style="display: flex; position: absolute; width: 100%; height: 100%; justify-content: center; align-items: center; background-color: rgb(52, 53, 65)">
+      <div class="g-recaptcha" data-sitekey="6LeYMLkkAAAAACefWZZuziwRABIR4u7ZD3TLg6Br" data-callback="onloadCallback" hl="ka"></div>
       <br />
     </form>
     <script type="text/javascript">
