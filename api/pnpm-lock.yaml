@@ -11,6 +11,7 @@ specifiers:
   cors: ^2.8.5
   dotenv: ^16.0.1
   express: ^4.18.1
+  node-cache: ^5.1.2
   openai: ^3.1.0
   prisma: ^4.10.1
   socket.io: ^4.5.1
@@ -23,6 +24,7 @@ dependencies:
   axios: 0.27.2
   cors: 2.8.5
   express: 4.18.2
+  node-cache: 5.1.2
   openai: 3.1.0
   prisma: 4.10.1
   socket.io: 4.6.0
@@ -565,6 +567,11 @@ packages:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
+    dev: false
+
+  /clone/2.1.2:
+    resolution: {integrity: sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==}
+    engines: {node: '>=0.8'}
     dev: false
 
   /color-convert/2.0.1:
@@ -1409,6 +1416,13 @@ packages:
   /negotiator/0.6.3:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /node-cache/5.1.2:
+    resolution: {integrity: sha512-t1QzWwnk4sjLWaQAS8CHgOJ+RAfmHpxFWmc36IWTiWHQfs0w5JDMBS1b1ZxQteo0vVVuWJvIUKHDkkeK7vIGCg==}
+    engines: {node: '>= 8.0.0'}
+    dependencies:
+      clone: 2.1.2
     dev: false
 
   /node-fetch/2.6.9:

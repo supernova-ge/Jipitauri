@@ -1,6 +1,6 @@
 import { Server as socketServer } from "socket.io";
 import { Server as httpServer } from "http";
-import { processEntry } from "../services/process";
+import { processEntry } from "../services/nlp";
 import prisma from "../prisma";
 
 const setupSocket = (server: httpServer) => {
