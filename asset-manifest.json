@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/Jipitauri/static/css/main.d2c95267.css",
-    "main.js": "/Jipitauri/static/js/main.605b85b8.js",
+    "main.css": "/Jipitauri/static/css/main.a874834d.css",
+    "main.js": "/Jipitauri/static/js/main.c6ed82af.js",
     "static/media/resultPrompt.png": "/Jipitauri/static/media/resultPrompt.ec9902188eb22142d76a.png",
     "static/media/result.png": "/Jipitauri/static/media/result.afcda1111c3355bf0b26.png",
     "index.html": "/Jipitauri/index.html",
     "static/media/code(1).svg": "/Jipitauri/static/media/code(1).2aac67eec2aeb4f80831fea986956a69.svg",
-    "main.d2c95267.css.map": "/Jipitauri/static/css/main.d2c95267.css.map",
-    "main.605b85b8.js.map": "/Jipitauri/static/js/main.605b85b8.js.map"
+    "main.a874834d.css.map": "/Jipitauri/static/css/main.a874834d.css.map",
+    "main.c6ed82af.js.map": "/Jipitauri/static/js/main.c6ed82af.js.map"
   },
   "entrypoints": [
-    "static/css/main.d2c95267.css",
-    "static/js/main.605b85b8.js"
+    "static/css/main.a874834d.css",
+    "static/js/main.c6ed82af.js"
   ]
 }
