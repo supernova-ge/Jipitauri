@@ -1,17 +1,17 @@
-import "./App.css";
 import sourceCode from "./assets/code(1).svg";
 import result from "./assets/result.png";
 import resultPrompt from "./assets/resultPrompt.png";
 
 function App() {
   return (
-    <main className="App">
+    <main className="flex flex-col items-center">
       <a
         href="https://github.com/supernova-ge/Jipitauri"
         target="_blank"
         rel="noreferrer"
+        className="self-start"
       >
-        <img src={sourceCode} alt="source-code" style={{ padding: "20px" }} />
+        <img src={sourceCode} alt="source-code" className="p-5" />
       </a>
       <div className="about">
         <p id="head">ჟიპიტაური, chatGPT-ის ქართულენოვანი ვერსია</p>
