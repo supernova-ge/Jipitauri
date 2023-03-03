@@ -80,9 +80,9 @@ function App() {
         </p>
 
         <p className="py-10 text-lg">Prompting-ის გარეშე</p>
-        <img src={result} alt="res" width="70%"></img>
+        <img src={result} alt="res" width="60%"></img>
         <p className="py-10 text-lg">Prompting-ით</p>
-        <img src={resultPrompt} alt="resProp" width="70%"></img>
+        <img src={resultPrompt} alt="resProp" width="60%"></img>
         <p className="text-sm m-10 px-5 lg:w-4/6">
           დიდი ენობრივი მოდელები და მათზე დაფუძნებული სერვისები, როგორიც არის
           ChatGPT და სხვები, საოცარ შესაძლებლობებს აძლევს მათ, ვინც ინგლისურად
