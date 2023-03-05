@@ -30,6 +30,52 @@ Follow env_example files at ./api/env_example and ./client/env_example
 ---
 
 
+:bookmark: `The project can work with any data source which is supported by Prisma.`
+
+
+:pushpin: To proceed with a database other than MongoDB, some config modifications to schema.prisma file are needed. 
+
+- E.g. to support `MySQL`, `schema.prisma` should look like this: 
+
+```env
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Prompt {
+  id        BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  sessionId String 
+  input     String
+  input_en  String
+  output    String
+  output_ge String
+  summary   String
+  createdAt DateTime @map("createdAt") @default(now())
+  updatedAt DateTime @map("updatedAt") @updatedAt
+}
+
+model Feedback {
+  id        BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  message   String
+  value     String
+  createdAt DateTime @map("createdAt") @default(now())
+  updatedAt DateTime @map("updatedAt") @updatedAt
+}
+
+```
+
+---
+
+:bookmark: `Meanwhile, we use MongoDB as our database provider because of its simplicity. `
+
+
+---
+
 ```typescript
 
 1. Navigate to `/api` folder
