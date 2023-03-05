@@ -1,5 +1,5 @@
 <h1 align="center">
-  <strong>Jipitauri - Based on GPT-3</strong>
+  <strong><code>Jipitauri - Based on GPT-3</code></strong>
 </h1>
 
 <p align="center">
@@ -12,13 +12,23 @@
   ![example2](https://img.shields.io/github/forks/supernova-ge/Jipitauri?style=social)
 </div>
 
-### Preview
+### `Preview`
 
 ![sample-conversation](https://github.com/supernova-ge/Jipitauri/blob/main/preview.png)
 
-### [Live preview](https://chat.pulsarai.ge)
+### [`Live preview`](https://chat.pulsarai.ge)
 
-### QuickStart
+---
+
+### `QuickStart`
+
+<p><code>ENVIRONMENT SETUP</code></p>
+
+```env
+Follow env_example files at ./api/env_example and ./client/env_example
+```
+---
+
 
 ```typescript
 
