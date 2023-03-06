@@ -1,0 +1,81 @@
+name: Deploy to Amazon ECS
+​on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'api/**'
+​
+env:
+  AWS_REGION: eu-west-1                  
+  ECR_REPOSITORY: chatgptge-api           
+  ECS_SERVICE:  chatgptge-api-srv                
+  ECS_CLUSTER: pulsar-cluster-test                       
+  CONTAINER_NAME: chatgptge-api
+  TASK_DEFINITION_FAMILY: chatgptge-api-task
+​
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+​
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3                         
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+​
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+​
+    - name: Download task definition
+      run: |
+        aws ecs describe-task-definition --task-definition ${{ env.TASK_DEFINITION_FAMILY }} --query taskDefinition > .aws/task-definition-api.json
+        
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        # Build a docker container and
+        # push it to ECR so that it can
+        # be deployed to ECS.
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./api
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: .aws/task-definition-api.json
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.build-image.outputs.image }}
+
+    - name: Add environment variables to ECS task definition
+      id: add-env-var
+      uses: cvmaker-bv/amazon-ecs-task-environment@v1
+      env:
+        GOOGLE_TRANSLATE_API_KEY: ${{ secrets.GOOGLE_TRANSLATE_API_KEY }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        container-name: ${{ env.CONTAINER_NAME }}
+        env-variables: "${{ toJson(env) }}"
+​
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true
