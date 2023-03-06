@@ -1,10 +1,11 @@
 name: Deploy to Amazon ECS
+
 on:
   push:
     branches:
       - main
-    paths:
-      - 'client/**'
+    # paths:
+    #   - 'client/**'
 
 env:
   AWS_REGION: eu-west-1                  
