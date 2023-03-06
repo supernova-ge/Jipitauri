@@ -1,11 +1,11 @@
 name: Deploy to Amazon ECS
-​on:
+on:
   push:
     branches:
       - main
     paths:
       - 'client/**'
-​
+
 env:
   AWS_REGION: eu-west-1                  
   ECR_REPOSITORY: chatgptge           
@@ -13,24 +13,24 @@ env:
   ECS_CLUSTER: pulsar-cluster-test                        
   CONTAINER_NAME: chatgptge
   TASK_DEFINITION_FAMILY: chatgptge-task
-​
+
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
-​
+
     steps:
     - name: Checkout
       uses: actions/checkout@v3  
-​
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
-​
+
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
@@ -38,7 +38,7 @@ jobs:
     - name: Download task definition
       run: |
         aws ecs describe-task-definition --task-definition ${{ env.TASK_DEFINITION_FAMILY }} --query taskDefinition > .aws/task-definition.json
-​
+
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
@@ -60,7 +60,7 @@ jobs:
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.build-image.outputs.image }}
 
-​    - name: Add environment variables to ECS task definition
+    - name: Add environment variables to ECS task definition
       id: add-env-var
       uses: cvmaker-bv/amazon-ecs-task-environment@v1
       env:
