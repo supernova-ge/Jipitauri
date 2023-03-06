@@ -40,6 +40,16 @@ jobs:
       run: |
         aws ecs describe-task-definition --task-definition ${{ env.TASK_DEFINITION_FAMILY }} --query taskDefinition > .aws/task-definition.json
 
+    - name: Add environment variables to ECS task definition
+      id: add-env-var
+      uses: cvmaker-bv/amazon-ecs-task-environment@v1
+      env:
+        REACT_APP_API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
+      with:
+        task-definition: .aws/task-definition.json
+        container-name: ${{ env.CONTAINER_NAME }}
+        env-variables: "${{ toJson(env) }}"
+
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
@@ -60,16 +70,6 @@ jobs:
         task-definition: .aws/task-definition.json
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.build-image.outputs.image }}
-
-    - name: Add environment variables to ECS task definition
-      id: add-env-var
-      uses: cvmaker-bv/amazon-ecs-task-environment@v1
-      env:
-        REACT_APP_API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
-      with:
-        task-definition: ${{ steps.task-def.outputs.task-definition }}
-        container-name: ${{ env.CONTAINER_NAME }}
-        env-variables: "${{ toJson(env) }}"
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
