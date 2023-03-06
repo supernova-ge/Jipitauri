@@ -38,18 +38,6 @@ jobs:
     - name: Download task definition
       run: |
         aws ecs describe-task-definition --task-definition ${{ env.TASK_DEFINITION_FAMILY }} --query taskDefinition > .aws/task-definition-api.json
-
-    - name: Add environment variables to ECS task definition
-      id: add-env-var
-      uses: cvmaker-bv/amazon-ecs-task-environment@v1
-      env:
-        GOOGLE_TRANSLATE_API_KEY: ${{ secrets.GOOGLE_TRANSLATE_API_KEY }}
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      with:
-        task-definition: .aws/task-definition-api.json
-        container-name: ${{ env.CONTAINER_NAME }}
-        env-variables: "${{ toJson(env) }}"
         
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
@@ -76,6 +64,9 @@ jobs:
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
+        GOOGLE_TRANSLATE_API_KEY: ${{ secrets.GOOGLE_TRANSLATE_API_KEY }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true
