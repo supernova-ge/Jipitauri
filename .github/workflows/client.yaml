@@ -60,12 +60,13 @@ jobs:
         task-definition: .aws/task-definition.json
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.build-image.outputs.image }}
+        environment-variables: |
+          REACT_APP_API_ENDPOINT=${{ secrets.API_ENDPOINT }}
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         service: ${{ env.ECS_SERVICE }}
-        REACT_APP_API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true
