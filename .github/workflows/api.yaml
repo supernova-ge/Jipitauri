@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   - 'api/**'
+    paths:
+      - 'api/**'
 
 env:
   AWS_REGION: eu-west-1                  
