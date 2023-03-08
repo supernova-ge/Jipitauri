@@ -3,7 +3,7 @@ import { Server as httpServer } from "http";
 import { processEntry } from "../services/nlp";
 import prisma from "../prisma";
 
-const setupSocket = (server: httpServer) => {
+const setupWebSockets = (server: httpServer) => {
   const io = new socketServer(server, {
     cors: {
       origin: "*",
@@ -42,4 +42,4 @@ const setupSocket = (server: httpServer) => {
   });
 };
 
-export { setupSocket };
+export { setupWebSockets };
