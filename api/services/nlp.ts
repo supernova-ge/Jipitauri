@@ -19,7 +19,7 @@ const trans = async (prompt: string, lang?: string) => {
 
     return res[0];
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return prompt;
   }
 };
@@ -96,7 +96,7 @@ const processEntry = async (text: string = "", sender: string) => {
       },
     ];
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return [
       {
         text: "ეხლა დასვენება მაქვს, ცოტა ხანში მომწერე.",
