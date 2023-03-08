@@ -17,6 +17,22 @@ const server = createServer(app);
 
 setupSocket(server);
 
-server.listen(4000, () => {
-  console.log("server is running on port:", PORT);
-});
+validateEnv() &&
+  server.listen(4000, () => {
+    console.log("server is running on port:", PORT);
+  });
+
+function validateEnv(): boolean {
+  const vars = new Map<string, string | undefined>();
+  vars.set("GOOGLE_TRANSLATE_API_KEY", process.env.GOOGLE_TRANSLATE_API_KEY);
+  vars.set("OPENAI_API_KEY", process.env.OPENAI_API_KEY);
+  vars.set("DATABASE_URL", process.env.DATABASE_URL);
+
+  for (let [key, value] of vars.entries()) {
+    if (!value) {
+      console.error(`❌ Missing env variable: ${key}`);
+      return false;
+    }
+  }
+  return true;
+}
