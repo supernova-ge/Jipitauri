@@ -12,15 +12,15 @@
   ![example2](https://img.shields.io/github/forks/supernova-ge/Jipitauri?style=social)
 </div>
 
-### `Preview`
+### Preview
 
 ![sample-conversation](https://github.com/supernova-ge/Jipitauri/blob/main/preview.png)
 
-### [`Live preview`](https://chat.pulsarai.ge)
+### [Live preview](https://chat.pulsarai.ge)
 
 ---
 
-### `QuickStart`
+### QuickStart
 
 <p><code>ENVIRONMENT SETUP</code></p>
 
