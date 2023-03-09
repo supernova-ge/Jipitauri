@@ -11,7 +11,7 @@ import "./Chat.css";
 const ChatBot = () => {
   const [client, setClient] = useState<Socket<DefaultEventsMap, DefaultEventsMap>>(setUpSocketClient());
 
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
 
   const toggleTyping = () => {
     toggleMsgLoader();
