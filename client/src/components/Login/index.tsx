@@ -1,14 +1,15 @@
 import { gapi } from "gapi-script";
 import { FC, useState } from "react";
 import { GoogleLogin } from "react-google-login";
-import { useStoreActions } from "easy-peasy";
-import { useNavigate } from "react-router-dom";
+import { useStoreActions, useStoreState } from "easy-peasy";
+import { Navigate, useNavigate } from "react-router-dom";
 import Popup from "../footer.popup";
 
 const clientId = "752019399960-kv19erb24bcjegpnjtmclbq895bc960n.apps.googleusercontent.com";
 
 const Login = () => {
   const setUserStatus = useStoreActions((actions: any) => actions.setUser);
+  const userStatus = useStoreState((state: any) => state.store.user);
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(true);
 
@@ -29,13 +30,19 @@ const Login = () => {
     console.log("Faild");
   };
 
+  if (userStatus?.accessToken) {
+    return <Navigate to="/chat" replace />;
+  }
+
   return (
     <div id="main" className="overflow-hidden w-full flex flex-col justify-between bg-bg-main" style={{ height: "100dvh", maxHeight: "100dvh" }}>
-      <header className="flex flex-row justify-between items-center w-full shrink-0" style={{ padding: "1.25rem 5%" }}>
+      <header className="relative flex flex-row justify-between items-center w-full shrink-0" style={{ padding: "1.25rem 5%" }}>
         <a href="https://supernova-ge.github.io/Jipitauri/" className="text-white-100 text-sm cursor-pointer text-center" target="_blank" rel="noreferrer">
           ჩვენ <br /> შესახებ
         </a>
-        <h1 className="text-xl font-bold text-white-200">ჟიპიტაური</h1>
+        <div className="absolute flex justify-center left-1/2 -translate-x-1/2">
+          <h1 className="text-xl font-bold text-white-200">ჟიპიტაური</h1>
+        </div>
         <span className="text-white-100 text-sm cursor-pointer text-center">&nbsp;</span>
       </header>
       <div className="flex justify-center py-4">

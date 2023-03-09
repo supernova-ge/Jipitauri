@@ -16,14 +16,19 @@ interface StoreModel {
 }
 
 const Store = createStore<StoreModel>(
-  persist({
-    store: {
-      user: null,
+  persist(
+    {
+      store: {
+        user: null,
+      },
+      setUser: action((state, payload) => {
+        state.store.user = payload;
+      }),
     },
-    setUser: action((state, payload) => {
-      state.store.user = payload;
-    }),
-  })
+    {
+      storage: "sessionStorage",
+    }
+  )
 );
 
 export default Store;
