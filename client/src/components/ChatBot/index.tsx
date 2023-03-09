@@ -6,6 +6,7 @@ import { Widget, addResponseMessage, toggleMsgLoader } from "react-chat-widget";
 // import clearIcon from "./assets/trash-2.svg";
 import Popup from "../footer.popup";
 import { setUpSocketClient } from "../../config/socket";
+import "./Chat.css";
 
 const ChatBot = () => {
   const [client, setClient] = useState<Socket<DefaultEventsMap, DefaultEventsMap>>(setUpSocketClient());
