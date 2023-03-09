@@ -36,10 +36,11 @@ const Login = () => {
           ჩვენ <br /> შესახებ
         </a>
         <h1 className="text-xl font-bold text-white-200">ჟიპიტაური</h1>
-        <span className="text-white-100 text-sm cursor-pointer text-center">
-          <GoogleLogin clientId={clientId} buttonText="Login" onSuccess={onSuccess} onFailure={onFailure} cookiePolicy={"single_host_origin"} isSignedIn={true} />
-        </span>
+        <span className="text-white-100 text-sm cursor-pointer text-center">&nbsp;</span>
       </header>
+      <div className="flex justify-center py-4">
+        <GoogleLogin clientId={clientId} buttonText="Sign in with google" onSuccess={onSuccess} onFailure={onFailure} cookiePolicy={"single_host_origin"} isSignedIn={true} />
+      </div>
       <main className="overflow-y-auto overflow-x-hidden h-full z-0">
         <div
           className="bg-bg-secondary w-95 flex flex-col items-center justify-between rounded-xl pb-5 text-md text-white-100 left-2 lg:w-50 xl:w-50 2xl:w-50 mx-auto"
