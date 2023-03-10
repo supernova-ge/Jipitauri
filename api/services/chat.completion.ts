@@ -41,8 +41,8 @@ const processEntry = async (text: string = "", sender: string) => {
 
     summary += `\n${input}\n`;
 
-    const davinci = new Davinci(ABSTRACT + summary, configuration);
-    const output_en = await davinci.getOutput();
+    const davinci = new Davinci(configuration);
+    const output_en = await davinci.getOutput(ABSTRACT + summary);
 
     let output = await trans(output_en || "", "ka");
 
