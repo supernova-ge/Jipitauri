@@ -1,6 +1,6 @@
 import { Server as socketServer } from "socket.io";
 import { Server as httpServer } from "http";
-import { processEntry } from "../services/nlp";
+import { processEntry } from "../services/chat.completion";
 import prisma from "../prisma";
 
 const setupWebSockets = (server: httpServer) => {

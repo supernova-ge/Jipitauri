@@ -2,6 +2,7 @@ import { Configuration, OpenAIApi } from "openai";
 import prisma from "../prisma";
 import * as v2 from "@google-cloud/translate";
 import cache from "../cache";
+import Davinci from "./models/text-davinci-003";
 
 const { Translate } = v2.v2;
 
@@ -9,6 +10,10 @@ const ABSTRACT = `The following is a conversation with an AI assistant named ჟ
 
 const translate = new Translate({
   key: process.env.GOOGLE_TRANSLATE_API_KEY,
+});
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const trans = async (prompt: string, lang?: string) => {
@@ -26,53 +31,23 @@ const trans = async (prompt: string, lang?: string) => {
 
 const processEntry = async (text: string = "", sender: string) => {
   try {
+    /**
+     * using text-davinci-003
+     *
+     */
     let input = await trans(text);
 
     let summary: string = cache.get(sender) || "";
 
     summary += `\n${input}\n`;
 
-    const configuration = new Configuration({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
+    const davinci = new Davinci(ABSTRACT + summary, configuration);
+    const output_en = await davinci.getOutput();
 
-    const openai = new OpenAIApi(configuration);
-
-    const { data } = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: ABSTRACT + summary,
-      temperature: 0.2,
-      max_tokens: 1000,
-    });
-
-    console.log({
-      model: "text-davinci-003",
-      prompt: ABSTRACT + summary,
-      temperature: 0,
-      max_tokens: 1000,
-    });
-
-    let output_en = data.choices?.[0].text || "";
-    let output = await trans(data.choices?.[0].text || "", "ka");
+    let output = await trans(output_en || "", "ka");
 
     if (summary.split(" ").length > 300) {
-      summary =
-        (
-          await openai.createCompletion({
-            model: "text-davinci-003",
-            prompt: summary + `\n${output_en}` + `\nTl;dr\n`,
-            temperature: 0.2,
-            max_tokens: 1000,
-          })
-        )?.data?.choices?.[0].text || "";
-      console.log("GET SUMMARY : INPUT", {
-        model: "text-davinci-003",
-        prompt: summary + `\n${output_en}` + `\nTl;dr\n`,
-        temperature: 0,
-        max_tokens: 1000,
-      });
-
-      console.log("GET SUMMARY : OUTPUT", summary);
+      summary = await davinci.getSummary(summary + `\n${output_en}`);
     } else {
       summary += `\n${output_en}`;
     }
