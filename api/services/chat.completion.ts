@@ -16,6 +16,10 @@ const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+/**
+ * @service translate
+ */
+
 const trans = async (prompt: string, lang?: string) => {
   console.log(`TRANSLATE: ${prompt} to ${lang}`);
   try {
@@ -29,11 +33,14 @@ const trans = async (prompt: string, lang?: string) => {
   }
 };
 
+/**
+ * @service processEntry
+ */
+
 const processEntry = async (text: string = "", sender: string) => {
   try {
     /**
-     * using text-davinci-003
-     *
+     * @model text-davinci-003
      */
     let input = await trans(text);
 
