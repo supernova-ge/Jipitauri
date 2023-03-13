@@ -83,10 +83,10 @@ class Processor {
 
     switch (this.model) {
       case "text-davinci-003":
-        this.davinci();
+        await this.davinci();
         break;
       case "gpt-3.5-turbo":
-        this.turbo();
+        await this.turbo();
     }
 
     this.output_ge = await this.trans(this.output_en || "", "ka");
