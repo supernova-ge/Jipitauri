@@ -12,17 +12,20 @@ export default class Turbo {
   async getOutput(
     messages: Array<ChatCompletionRequestMessage>
   ): Promise<string> {
-    const { data } = await this.openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      messages,
-    });
+    try {
+      const { data } = await this.openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages,
+      });
 
-    console.log({
-      model: "gpt-3.5-turbo",
-      messages,
-    });
-    console.log(data.choices[0].message?.content);
+      console.log({
+        model: "gpt-3.5-turbo",
+        messages,
+      });
 
-    return data.choices[0].message?.content as string;
+      return data.choices[0].message?.content as string;
+    } catch (e) {
+      return "";
+    }
   }
 }

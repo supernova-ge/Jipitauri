@@ -44,7 +44,7 @@ class Processor {
     return this;
   }
 
-  async davinci() {
+  async davinci(): Promise<void> {
     this.summary = cache.get(this.sender) || "";
     this.summary += `\n${this.input_en}\n`;
 
@@ -62,7 +62,7 @@ class Processor {
     cache.set(this.sender, this.summary);
   }
 
-  async turbo() {
+  async turbo(): Promise<void> {
     this.messages.push({
       role: "user",
       content: this.input_en,
@@ -111,8 +111,8 @@ class Processor {
           text: this.output_ge,
         },
       ];
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      console.error(e.body);
       return [
         {
           text: "ეხლა დასვენება მაქვს, ცოტა ხანში მომწერე.",
@@ -125,15 +125,15 @@ class Processor {
    * @service translate
    */
 
-  async trans(prompt: string, lang?: string) {
-    console.log(`TRANSLATE: ${prompt} to ${lang}`);
+  async trans(prompt: string, lang: string = "en") {
+    console.log(`TRANSLATE: ${prompt} : ${lang}`);
     try {
-      let res = await translate.translate(prompt, lang || "en");
-      console.log(`TRANSLATED to ${lang}: ${res?.[0]}`);
+      let res = await translate.translate(prompt, lang);
+      console.log(`TRANSLATED : ${res?.[0]}`);
 
       return res[0];
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      console.error(e.body);
       return prompt;
     }
   }
