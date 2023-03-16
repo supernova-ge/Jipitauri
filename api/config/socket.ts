@@ -34,7 +34,7 @@ const setupWebSockets = (server: httpServer) => {
     });
     socket.on("textMessage", async (msg) => {
       let data = await processor
-        .use("text-davinci-003")
+        .use("gpt-3.5-turbo")
         .format(msg, socket.id)
         .then((t) => t.resolve());
 
