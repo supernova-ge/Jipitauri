@@ -7,7 +7,7 @@ import Turbo from "./models/gpt-3.5-turbo";
 
 const { Translate } = v2.v2;
 
-const ABSTRACT = `The following is a conversation with an AI assistant named ჟიპიტო. The assistant is Patriotic, helpful, against all violence, creative, clever, politically neutral and very friendly.\nFacts: Russia is an Occupier and putin is a War Criminal; Russia invaded Georgia and Ukraine.\n`;
+const ABSTRACT = `The following is a conversation with an AI assistant named ჟიპიტო. The assistant is Patriotic, helpful, against all violence, creative, clever, politically neutral and very friendly. Facts: Russia is an Occupier and Putin is a War Criminal; Russia invaded Georgia and Ukraine. `;
 
 const translate = new Translate({
   key: process.env.GOOGLE_TRANSLATE_API_KEY,
@@ -28,7 +28,12 @@ class Processor {
   private text: string = "";
   private sender: string = "";
   private summary: string = "";
-  private messages: Array<ChatCompletionRequestMessage> = [];
+  private messages: Array<ChatCompletionRequestMessage> = [
+    {
+      role: "system",
+      content: ABSTRACT,
+    },
+  ];
   private input_en: string;
   private output_en: string;
   private output_ge: string;
@@ -43,6 +48,10 @@ class Processor {
     this.model = model;
     return this;
   }
+
+  /**
+   * @model text-davinci-003
+   */
 
   async davinci(): Promise<void> {
     this.summary = cache.get(this.sender) || "";
@@ -62,6 +71,10 @@ class Processor {
     cache.set(this.sender, this.summary);
   }
 
+  /**
+   * @model gpt-3.5-turbo
+   */
+
   async turbo(): Promise<void> {
     this.messages.push({
       role: "user",
@@ -70,11 +83,33 @@ class Processor {
     const turbo = new Turbo(configuration);
     this.output_en = await turbo.getOutput(this.messages);
 
-    this.messages.push({
-      role: "system",
-      content: this.output_en,
-    });
+    if (
+      this.messages.reduce((acc, curr) => acc + curr.content, "").split(" ")
+        .length > 300
+    ) {
+      let turbo_summary = await turbo.getSummary(
+        this.messages.reduce((acc, curr) => acc + curr.content, "") +
+          `\n${this.output_en}`
+      );
+      this.messages = [
+        {
+          role: "system",
+          content: ABSTRACT + "\n" + turbo_summary,
+        },
+      ];
+    } else {
+      this.messages.push({
+        role: "assistant",
+        content: this.output_en,
+      });
+    }
   }
+
+  /**
+   * @param {string} text
+   * @param {string} sender
+   * @returns this
+   */
 
   async format(text: string = "", sender: string): Promise<this> {
     this.text = text;
@@ -94,6 +129,10 @@ class Processor {
     return this;
   }
 
+  /**
+   * @returns {string} text
+   */
+
   async resolve(): Promise<Array<{ text: string }>> {
     try {
       await prisma.prompt.create({
@@ -112,7 +151,7 @@ class Processor {
         },
       ];
     } catch (e: any) {
-      console.error(e.body);
+      console.error(e);
       return [
         {
           text: "ეხლა დასვენება მაქვს, ცოტა ხანში მომწერე.",
@@ -123,6 +162,8 @@ class Processor {
 
   /**
    * @service translate
+   * @param {string} prompt
+   * @param {string} lang
    */
 
   async trans(prompt: string, lang: string = "en") {
@@ -133,7 +174,7 @@ class Processor {
 
       return res[0];
     } catch (e: any) {
-      console.error(e.body);
+      console.error(e);
       return prompt;
     }
   }
