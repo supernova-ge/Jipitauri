@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-chat-widget/lib/styles.css";
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 import { Socket } from "socket.io-client";
@@ -9,7 +9,9 @@ import { setUpSocketClient } from "../../config/socket";
 import "./Chat.css";
 
 const ChatBot = () => {
-  const [client, setClient] = useState<Socket<DefaultEventsMap, DefaultEventsMap>>(setUpSocketClient());
+  const [client] = useState<Socket<DefaultEventsMap, DefaultEventsMap>>(
+    setUpSocketClient()
+  );
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -42,13 +44,16 @@ const ChatBot = () => {
     if (e.target.style.backgroundColor === "green") {
       e.target.style.backgroundColor = "transparent";
     } else {
-      client.on("feedback_received", (data) => {
+      client.on("feedback_received", (data: string) => {
+        console.log(data);
+
         e.target.style.backgroundColor = "green";
-        e.target.parentElement.children[1].style.backgroundColor = "transparent";
+        e.target.parentElement.children[1].style.backgroundColor =
+          "transparent";
       });
       client.emit("feedback", {
         value: "like",
-        message: e.target.parentElement.parentElement.innerText,
+        message_id: e.target.id,
       });
     }
   };
@@ -57,13 +62,14 @@ const ChatBot = () => {
     if (e.target.style.backgroundColor === "red") {
       e.target.style.backgroundColor = "transparent";
     } else {
-      client.on("feedback_received", (data) => {
+      client.on("feedback_received", () => {
         e.target.style.backgroundColor = "red";
-        e.target.parentElement.children[0].style.backgroundColor = "transparent";
+        e.target.parentElement.children[0].style.backgroundColor =
+          "transparent";
       });
       client.emit("feedback", {
         value: "dislike",
-        message: e.target.parentElement.parentElement.innerText,
+        message_id: e.target.id,
       });
     }
   };
@@ -82,7 +88,7 @@ const ChatBot = () => {
     /*
      * set up listeners for socket connection
      */
-    client.on("data", (data) => {
+    client.on("data", (data: { message: string; message_id: string }) => {
       toggleTyping();
 
       addResponseMessage(data.message);
@@ -93,12 +99,14 @@ const ChatBot = () => {
       likeBtn.src = "/img/thumbs-up(1).svg";
       likeBtn.alt = "like";
       likeBtn.className = "likeBtn";
+      likeBtn.id = data.message_id;
       likeBtn.addEventListener("click", handleLike);
 
       let dislikeBtn = document.createElement("img");
       dislikeBtn.src = "/img/thumbs-down.svg";
       dislikeBtn.alt = "dislike";
       dislikeBtn.className = "dislikeBtn";
+      dislikeBtn.id = data.message_id;
       dislikeBtn.addEventListener("click", handleDislike);
 
       const feedback = document.createElement("div");
@@ -116,13 +124,28 @@ const ChatBot = () => {
   }, [client]);
 
   return (
-    <div id="main" className="overflow-hidden w-full flex flex-col justify-between bg-bg-main" style={{ height: "100dvh", maxHeight: "100dvh" }}>
-      <header className="flex flex-row justify-between items-center w-full shrink-0" style={{ padding: "1.25rem 5%" }}>
-        <a href="https://supernova-ge.github.io/Jipitauri/" className="text-white-100 text-sm cursor-pointer text-center" target="_blank" rel="noreferrer">
+    <div
+      id="main"
+      className="overflow-hidden w-full flex flex-col justify-between bg-bg-main"
+      style={{ height: "100dvh", maxHeight: "100dvh" }}
+    >
+      <header
+        className="flex flex-row justify-between items-center w-full shrink-0"
+        style={{ padding: "1.25rem 5%" }}
+      >
+        <a
+          href="https://supernova-ge.github.io/Jipitauri/"
+          className="text-white-100 text-sm cursor-pointer text-center"
+          target="_blank"
+          rel="noreferrer"
+        >
           ჩვენ <br /> შესახებ
         </a>
         <h1 className="text-xl font-bold text-white-200">ჟიპიტაური</h1>
-        <span className="text-white-100 text-sm cursor-pointer text-center" onClick={handleClear}>
+        <span
+          className="text-white-100 text-sm cursor-pointer text-center"
+          onClick={handleClear}
+        >
           ახლიდან <br /> დაწყება
         </span>
       </header>
@@ -134,7 +157,12 @@ const ChatBot = () => {
           <button className="text-2xl px-5" onClick={() => setShowPopup(true)}>
             ^
           </button>
-          <p className="text-start">ეს არის ავტომატიზირებული სისტემა რომელიც იყენებს open ai-ს მიერ შექმნილ ენობრივ მოდელს, რომელმაც შეიძლება დააგენერიროს ისეთი ტექსტი, რომელიც არ ეფუძნება ფაქტებს და არ წარმოადგენს სიმართლეს. ჩვენ არ ვიღებთ პასუხისმგებლობას ამ ინფორმაციის სრულყოფილებასა და სისწორეზე.</p>
+          <p className="text-start">
+            ეს არის ავტომატიზირებული სისტემა რომელიც იყენებს open ai-ს მიერ
+            შექმნილ ენობრივ მოდელს, რომელმაც შეიძლება დააგენერიროს ისეთი ტექსტი,
+            რომელიც არ ეფუძნება ფაქტებს და არ წარმოადგენს სიმართლეს. ჩვენ არ
+            ვიღებთ პასუხისმგებლობას ამ ინფორმაციის სრულყოფილებასა და სისწორეზე.
+          </p>
         </div>
         <p className="mt-5">©სუპერნოვა</p>
       </footer>

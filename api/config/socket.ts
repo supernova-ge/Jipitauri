@@ -19,19 +19,23 @@ const setupWebSockets = (server: httpServer) => {
     socket.on("join", async (client: string) => {
       socket.join(socket.id);
     });
-    socket.on("feedback", async (data: { value: string; message: string }) => {
-      try {
-        console.log(data);
+    socket.on(
+      "feedback",
+      async (data: { value: string; message_id: string }) => {
+        try {
+          console.log("FEEDBACK:: ", data);
 
-        await prisma.feedback.create({
-          data: {
-            value: data.value,
-            message: data.message,
-          },
-        });
-        socket.emit("feedback_received", "Thank you for your feedback");
-      } catch (e) {}
-    });
+          await prisma.feedback.create({
+            data: {
+              value: data.value,
+              message: data.message_id,
+            },
+          });
+
+          socket.emit("feedback_received", "Thank you for your feedback");
+        } catch (e) {}
+      }
+    );
     socket.on("textMessage", async (msg) => {
       let data = await processor
         .use("gpt-3.5-turbo")
@@ -39,7 +43,8 @@ const setupWebSockets = (server: httpServer) => {
         .then((t) => t.resolve());
 
       socket.emit("data", {
-        message: data?.[0]?.text || "",
+        message: data[0]?.text || "",
+        message_id: data[0]?.message_id || "",
       });
     });
     socket.on("disconnect", () => {

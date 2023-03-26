@@ -133,9 +133,9 @@ class Processor {
    * @returns {string} text
    */
 
-  async resolve(): Promise<Array<{ text: string }>> {
+  async resolve(): Promise<Array<{ text: string; message_id: string }>> {
     try {
-      await prisma.prompt.create({
+      let res = await prisma.prompt.create({
         data: {
           sessionId: this.sender,
           input: this.text,
@@ -145,9 +145,11 @@ class Processor {
           summary: this.summary || JSON.stringify(this.messages),
         },
       });
+
       return [
         {
           text: this.output_ge,
+          message_id: res.id,
         },
       ];
     } catch (e: any) {
@@ -155,6 +157,7 @@ class Processor {
       return [
         {
           text: "ეხლა დასვენება მაქვს, ცოტა ხანში მომწერე.",
+          message_id: "0",
         },
       ];
     }
