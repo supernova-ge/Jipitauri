@@ -13,6 +13,7 @@
     "react-dom": "^17.0.2",
     "react-ga4": "^2.0.0",
     "react-google-login": "^5.2.2",
+    "react-onclickoutside": "^6.13.0",
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
     "socket.io-client": "^4.5.1",
@@ -44,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-onclickoutside": "^6.7.4",
     "tailwindcss": "^3.2.7"
   }
 }

@@ -20,9 +20,13 @@ model Prompt {
 }
 
 model Feedback {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  message   String
-  value     String
-  createdAt DateTime @map("createdAt") @default(now())
-  updatedAt DateTime @map("updatedAt") @updatedAt
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  message       String   @unique
+  like          Int
+  contextField  Int
+  contentField  Int
+  convertField  Int
+  optional      String
+  createdAt     DateTime @map("createdAt") @default(now())
+  updatedAt     DateTime @map("updatedAt") @updatedAt
 }
