@@ -21,7 +21,7 @@ const setupWebSockets = (server: httpServer) => {
     });
     socket.on("feedback_remove", async (data: {message_id: string}) => {
       try {
-        await prisma.feedback.delete({
+        await prisma.feedback_new.delete({
           where:{
             message: data.message_id,
           }
@@ -35,7 +35,7 @@ const setupWebSockets = (server: httpServer) => {
       "feedback",
       async (data: { like : number; contextField : number; contentField : number; convertField : number; optional_feedback: string; message_id: string }) => {
         try {
-          await prisma.feedback.upsert({
+          await prisma.feedback_new.upsert({
             create: {
               like : data.like,
               contextField : data.contextField,

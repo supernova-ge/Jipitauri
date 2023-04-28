@@ -19,7 +19,7 @@ model Prompt {
   updatedAt DateTime @map("updatedAt") @updatedAt
 }
 
-model Feedback {
+model Feedback_new {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   message       String   @unique
   like          Int
