@@ -1,5 +1,5 @@
 <h1 align="center">
-  <strong><code>Jipitauri - Based on GPT-3</code></strong>
+  <strong><code>Jipitauri - Based on GPT-3 </code></strong>
 </h1>
 
 <p align="center">
