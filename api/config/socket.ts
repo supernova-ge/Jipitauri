@@ -19,53 +19,50 @@ const setupWebSockets = (server: httpServer) => {
     socket.on("join", async (client: string) => {
       socket.join(socket.id);
     });
-    socket.on("feedback_remove", async (data: {message_id: string}) => {
+    socket.on("feedback_remove", async (data: { message_id: string }) => {
       try {
         await prisma.feedback_new.delete({
-          where:{
+          where: {
             message: data.message_id,
-          }
+          },
         });
         console.log("FEEDBACK_DELETED: ", data);
       } catch (e) {
-        console.log(e)
-      }  
-    });
-    socket.on(
-      "feedback",
-      async (data: { like : number; contextField : number; contentField : number; convertField : number; optional_feedback: string; message_id: string }) => {
-        try {
-          await prisma.feedback_new.upsert({
-            create: {
-              like : data.like,
-              contextField : data.contextField,
-              contentField : data.contentField,
-              convertField : data.convertField,
-              optional: data.optional_feedback,
-              message: data.message_id,
-            },
-            update: {
-              like : data.like,
-              contextField : data.contextField,
-              contentField : data.contentField,
-              convertField : data.convertField,
-              optional: data.optional_feedback,
-              message: data.message_id,
-            },
-            where: {
-              message: data.message_id,
-            }
-          });
-          socket.emit("feedback_received", "Thank you for your feedback");
-          console.log("FEEDBACK:: ", data);
-        } catch (e) {
-          console.log(e);
-        }
+        console.log(e);
       }
-    );
+    });
+    socket.on("feedback", async (data: { like: number; contextField: number; contentField: number; convertField: number; optional_feedback: string; message_id: string }) => {
+      try {
+        await prisma.feedback_new.upsert({
+          create: {
+            like: data.like,
+            contextField: data.contextField,
+            contentField: data.contentField,
+            convertField: data.convertField,
+            optional: data.optional_feedback,
+            message: data.message_id,
+          },
+          update: {
+            like: data.like,
+            contextField: data.contextField,
+            contentField: data.contentField,
+            convertField: data.convertField,
+            optional: data.optional_feedback,
+            message: data.message_id,
+          },
+          where: {
+            message: data.message_id,
+          },
+        });
+        socket.emit("feedback_received", "Thank you for your feedback");
+        console.log("FEEDBACK:: ", data);
+      } catch (e) {
+        console.log(e);
+      }
+    });
     socket.on("textMessage", async (msg) => {
       let data = await processor
-        .use("gpt-3.5-turbo")
+        .use("tbilisi-ai-lab-2.0")
         .format(msg, socket.id)
         .then((t) => t.resolve());
 

@@ -1,30 +1,24 @@
-import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from "openai";
-import prisma from "../prisma";
-import * as v2 from "@google-cloud/translate";
+import { ChatCompletionRequestMessage, Configuration } from "openai";
 import cache from "../cache";
-import Davinci from "./models/text-davinci-003";
+import prisma from "../prisma";
 import Turbo from "./models/gpt-3.5-turbo";
-
-const { Translate } = v2.v2;
+import Davinci from "./models/text-davinci-003";
 
 const ABSTRACT = `The following is a conversation with an AI assistant named ჟიპიტო. The assistant is Patriotic, helpful, against all violence, creative, clever, politically neutral and very friendly. Facts: Russia is an Occupier and Putin is a War Criminal; Russia invaded Georgia in 2008 and Ukraine in 2014. `;
 
-const translate = new Translate({
-  key: process.env.GOOGLE_TRANSLATE_API_KEY,
-});
-
 const configuration = new Configuration({
+  basePath: "https://api.ailab.ge",
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-type Model = "text-davinci-003" | "gpt-3.5-turbo";
+type Model = "text-davinci-003" | "tbilisi-ai-lab-2.0";
 
 /**
  * @service Processor
  */
 
 class Processor {
-  public model: string = "text-davinci-003";
+  public model: string = "tbilisi-ai-lab-2.0";
   private text: string = "";
   private sender: string = "";
   private summary: string = "";
@@ -61,9 +55,7 @@ class Processor {
     this.output_en = await davinci.getOutput(ABSTRACT + this.summary);
 
     if (this.summary.split(" ").length > 300) {
-      this.summary = await davinci.getSummary(
-        this.summary + `\n${this.output_en}`
-      );
+      this.summary = await davinci.getSummary(this.summary + `\n${this.output_en}`);
     } else {
       this.summary += `\n${this.output_en}`;
     }
@@ -83,14 +75,8 @@ class Processor {
     const turbo = new Turbo(configuration);
     this.output_en = await turbo.getOutput(this.messages);
 
-    if (
-      this.messages.reduce((acc, curr) => acc + curr.content, "").split(" ")
-        .length > 300
-    ) {
-      let turbo_summary = await turbo.getSummary(
-        this.messages.reduce((acc, curr) => acc + curr.content, "") +
-          `\n${this.output_en}`
-      );
+    if (this.messages.reduce((acc, curr) => acc + curr.content, "").split(" ").length > 300) {
+      let turbo_summary = await turbo.getSummary(this.messages.reduce((acc, curr) => acc + curr.content, "") + `\n${this.output_en}`);
       this.messages = [
         {
           role: "system",
@@ -114,17 +100,17 @@ class Processor {
   async format(text: string = "", sender: string): Promise<this> {
     this.text = text;
     this.sender = sender;
-    this.input_en = await this.trans(this.text);
+    this.input_en = this.text;
 
     switch (this.model) {
       case "text-davinci-003":
         await this.davinci();
         break;
-      case "gpt-3.5-turbo":
+      case "tbilisi-ai-lab-2.0":
         await this.turbo();
     }
 
-    this.output_ge = await this.trans(this.output_en || "", "ka");
+    this.output_ge = this.output_en;
 
     return this;
   }
@@ -160,25 +146,6 @@ class Processor {
           message_id: "0",
         },
       ];
-    }
-  }
-
-  /**
-   * @service translate
-   * @param {string} prompt
-   * @param {string} lang
-   */
-
-  async trans(prompt: string, lang: string = "en") {
-    console.log(`TRANSLATE: ${prompt} : ${lang}`);
-    try {
-      let res = await translate.translate(prompt, lang);
-      console.log(`TRANSLATED : ${res?.[0]}`);
-
-      return res[0];
-    } catch (e: any) {
-      console.error(e);
-      return prompt;
     }
   }
 }

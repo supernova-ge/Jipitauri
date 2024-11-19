@@ -24,7 +24,7 @@ validateEnv() &&
 
 function validateEnv(): boolean {
   const vars = new Map<string, string | undefined>();
-  vars.set("GOOGLE_TRANSLATE_API_KEY", process.env.GOOGLE_TRANSLATE_API_KEY);
+  // vars.set("GOOGLE_TRANSLATE_API_KEY", process.env.GOOGLE_TRANSLATE_API_KEY);
   vars.set("OPENAI_API_KEY", process.env.OPENAI_API_KEY);
   vars.set("DATABASE_URL", process.env.DATABASE_URL);
 

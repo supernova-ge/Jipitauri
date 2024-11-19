@@ -9,19 +9,17 @@ export default class Turbo {
     this.openai = new OpenAIApi(configuration);
   }
 
-  async getOutput(
-    messages: Array<ChatCompletionRequestMessage>
-  ): Promise<string> {
+  async getOutput(messages: Array<ChatCompletionRequestMessage>): Promise<string> {
     try {
       const { data } = await this.openai.createChatCompletion({
-        model: "gpt-3.5-turbo",
+        model: "tbilisi-ai-lab-2.0",
         messages,
         temperature: 0.2,
         max_tokens: 1000,
       });
 
       console.log({
-        model: "gpt-3.5-turbo",
+        model: "tbilisi-ai-lab-2.0",
         messages,
       });
 
@@ -41,14 +39,14 @@ export default class Turbo {
 
     try {
       const { data } = await this.openai.createChatCompletion({
-        model: "gpt-3.5-turbo",
+        model: "tbilisi-ai-lab-2.0",
         messages,
         temperature: 0.2,
         max_tokens: 1000,
       });
 
       console.log({
-        model: "gpt-3.5-turbo",
+        model: "tbilisi-ai-lab-2.0",
         messages,
       });
 
